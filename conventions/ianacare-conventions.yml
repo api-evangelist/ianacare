@@ -1,0 +1,94 @@
+generated: '2026-08-22'
+method: probed
+source: >-
+  Live anonymous responses from https://iana.ianacare.com/ and https://api.ianacare.com/
+  plus https://auth.ianacare.com/.well-known/openid-configuration
+note: >-
+  ianacare publishes no API documentation, so nothing here is quoted from a docs page.
+  Every field below is either observed on the wire or explicitly marked unknown. Where a
+  convention cannot be observed without a credential it is recorded as unknown rather
+  than inferred — an unknown is data, a guess is not.
+surfaces:
+- host: https://iana.ianacare.com
+  role: primary application API (Google Cloud, "Google Frontend")
+  auth: bearer JWT
+  status: gated
+- host: https://api.ianacare.com
+  role: AWS API Gateway behind CloudFront
+  auth: unknown
+  status: 'HTTP 403 ForbiddenException on every path, including the root'
+auth_style:
+  model: OAuth 2.0 / OpenID Connect bearer JWT
+  issuer: https://auth.ianacare.com/
+  header: 'Authorization: Bearer <jwt>'
+  evidence: >-
+    HTTP 401 {"error":{"code":"auth_denied","message":"Missing bearer token"}} from
+    https://iana.ianacare.com/api/v1
+  see: authentication/ianacare-authentication.yml
+versioning:
+  style: path
+  example: /api/v1
+  policy_published: false
+  see: lifecycle/ianacare-lifecycle.yml
+error_envelope:
+  shape: '{"error": {"code": "<slug>", "message": "<human text>", "request_id": "<uuid>"}}'
+  content_type: application/json; charset=utf-8
+  rfc9457: false
+  observed_codes:
+  - code: auth_denied
+    status: 401
+    message: Missing bearer token
+  - code: not_found
+    status: 404
+    message: Not found
+  see: errors/ianacare-problem-types.yml
+request_id_tracing:
+  supported: true
+  response_header: x-request-id
+  body_field: error.request_id
+  example_header: 'x-request-id: 1f85068c-8007-43cb-9b65-185e9a583a65'
+  note: >-
+    The correlation id is returned BOTH as a response header and inside the error body,
+    which is the single strongest convention observable on this surface. A Google Cloud
+    x-cloud-trace-context header accompanies it.
+rate_limit_signaling:
+  supported: false
+  note: No RateLimit-*, X-RateLimit-* or Retry-After headers on any observed response.
+  see: rate-limits/ianacare-rate-limits.yml
+pagination:
+  style: unknown
+  note: No collection endpoint is reachable anonymously.
+field_expansion:
+  supported: unknown
+metadata:
+  supported: unknown
+idempotency:
+  supported: unknown
+  header: null
+  note: >-
+    Not observable without a credential and not documented anywhere. NO `Idempotency`
+    pointer is emitted — asserting idempotency support we cannot see would be a claim
+    made on ianacare's behalf.
+dry_run_mode:
+  supported: unknown
+reversibility:
+  state: unknown
+  grade: none
+  note: >-
+    ianacare's write surface is a private mobile/web app backend with no public contract,
+    so no reversal operation, operationId or window can be recorded. This is NOT `na`:
+    the product plainly has write actions (a caregiver creates care-team requests, tasks
+    and schedules in the app), so the honest answer is that reversibility exists in the
+    product but is undocumented and unobservable to anyone outside the app. Nothing was
+    assumed about cancel/undo windows.
+  operations: []
+  windows: []
+x-evidence:
+  fetched: '2026-08-22'
+  urls:
+  - url: https://iana.ianacare.com/api/v1
+    status: 401
+  - url: https://iana.ianacare.com/v1
+    status: 404
+  - url: https://api.ianacare.com/
+    status: 403

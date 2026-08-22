@@ -1,8 +1,23 @@
 aid: ianacare
 name: ianacare
-description: 'ianacare is a company surfaced via the API Evangelist harvest backlog (source: secondary-market)
-  and added to the network as a stub for full-pipeline profiling.'
+description: >-
+  ianacare ("iana" = I Am Not Alone) is a Boston-based caregiver support and navigation
+  platform that sells to employers, health plans and providers as a benefit for the
+  working family caregivers in their populations. Founded in 2018 by Jessica Kim and
+  Steven Lee, it pairs a consumer mobile app — where a caregiver mobilizes an informal
+  care team, coordinates practical tasks, unlocks employer benefits and finds local
+  resources — with human Caregiver Navigators, and positions itself as a partner for
+  fulfilling CMS GUIDE Model dementia-care requirements. The company raised a $12.1M
+  Series A in January 2022 led by Greycroft with 8VC, SemperVirens, Able Partners and
+  the Brown Angel Group. ianacare ships software only as an end-user product: the iOS
+  and Android apps and the app.ianacare.com web client are backed by first-party hosts
+  (iana.ianacare.com behind a JWT bearer token, api.ianacare.com behind a CloudFront
+  403) and by ianacare's own Auth0 custom domain auth.ianacare.com, which is the single
+  machine-readable contract the company publishes. There is no developer portal, API
+  reference, OpenAPI, SDK, CLI, webhook catalog, MCP server or agent card on any
+  ianacare host.
 url: https://raw.githubusercontent.com/api-evangelist/ianacare/refs/heads/main/apis.yml
+image: https://ianacare.com/wp-content/uploads/2024/11/Ianacare_part-3__102-1.webp
 x-type: company
 x-source: harvest:secondary-market
 x-tier: stub
@@ -12,6 +27,14 @@ created: '2026-08-22'
 modified: '2026-08-22'
 tags:
 - Company
+- Health Care
+- Caregiving
+- Employee Benefits
+- Digital Health
+- Care Navigation
+- Health Plans
+- Mobile Application
+- Identity
 apis: []
 maintainers:
 - FN: Kin Lane
@@ -20,4 +43,75 @@ maintainers:
   email: info@apis.io
 common:
 - type: Website
-  url: https://www.nasdaqprivatemarket.com/
+  url: https://ianacare.com/
+- type: Support
+  url: https://support.ianacare.com/hc/en-us
+- type: Login
+  url: https://app.ianacare.com/
+- type: Blog
+  url: https://ianacare.com/resource-center/
+- type: TermsOfService
+  url: https://ianacare.com/terms-of-use/
+- type: PrivacyPolicy
+  url: https://ianacare.com/privacy-policy/
+- type: WellKnown
+  url: well-known/ianacare-well-known.yml
+- type: Authentication
+  url: authentication/ianacare-authentication.yml
+- type: OAuthScopes
+  url: scopes/ianacare-scopes.yml
+- type: OpenIDConnect
+  url: well-known/ianacare-openid-configuration.json
+- type: Conformance
+  url: conformance/ianacare-conformance.yml
+- type: DomainSecurity
+  url: security/ianacare-domain-security.yml
+- type: Lifecycle
+  url: lifecycle/ianacare-lifecycle.yml
+- type: Plans
+  url: plans/ianacare-plans-pricing.yml
+- type: RateLimits
+  url: rate-limits/ianacare-rate-limits.yml
+- type: LLMsTxt
+  url: llms/ianacare-llms.txt
+- type: Conventions
+  url: conventions/ianacare-conventions.yml
+- type: Packages
+  url: packages/ianacare-packages.yml
+x-enrichment:
+  date: '2026-08-22'
+  status: minimal
+  artifacts_added: 16
+  pass: local-v1
+x-coverage:
+  state: none
+  reason: no-developer-program
+  detail: >-
+    ianacare ships software only as an end-user product — an iOS/Android caregiving app
+    and the app.ianacare.com web client sold through employers and health plans — and
+    publishes no developer surface of any kind: the CloudFront-fronted API edge
+    api.ianacare.com answers HTTP 403 {"message":"Forbidden"} on every path including
+    the root, the real application host iana.ianacare.com answers HTTP 401
+    {"error":{"code":"auth_denied","message":"Missing bearer token"}} with no way to
+    obtain a client, the 49-page site sitemap contains no developer, API or integration
+    page, and the github.com/ianacare organization has 0 public repositories; the only
+    machine-readable contract on any ianacare host is the OIDC discovery document its
+    own Auth0 custom domain serves for its own apps.
+  evidence:
+  - url: https://api.ianacare.com/openapi.json
+    status: 403
+  - url: https://iana.ianacare.com/api/v1
+    status: 401
+  - url: https://iana.ianacare.com/openapi.json
+    status: 404
+  - url: https://auth.ianacare.com/.well-known/openid-configuration
+    status: 200
+  - url: https://auth.ianacare.com/.well-known/agent-card.json
+    status: 404
+  - url: https://api.github.com/orgs/ianacare
+    status: 200
+  - url: https://registry.npmjs.org/-/v1/search?text=ianacare
+    status: 200
+  - url: https://ianacare.com/
+    status: 202
+  checked: '2026-08-22'

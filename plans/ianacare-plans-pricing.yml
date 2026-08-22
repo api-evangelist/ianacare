@@ -1,0 +1,32 @@
+generated: '2026-08-22'
+method: searched
+source: https://ianacare.com/page-sitemap.xml
+note: >-
+  ianacare publishes no pricing at all. It is a B2B2C benefit: employers, health plans
+  and providers contract for it and the caregiver receives it at no cost, so the public
+  site carries buyer landing pages (/employers/, /plans-and-providers/,
+  /plans-and-providers-cms-guide-model/) and a contact form instead of a pricing page.
+  No /pricing or /plans page exists anywhere in the 49-page site sitemap. Recorded as
+  zero plans, not as an omission.
+plan_count: 0
+pricing_model: contract / contact-sales
+free_for_end_user: true
+free_for_end_user_evidence: >-
+  Marketed as an employee benefit and as a no-cost Medicare GUIDE program offering
+  ("Check if you qualify for the No-Cost Medicare GUIDE Program" on the homepage).
+plans: []
+buyer_pages:
+- url: https://ianacare.com/employers/
+  audience: Employers
+- url: https://ianacare.com/plans-and-providers/
+  audience: Health plans and providers
+- url: https://ianacare.com/plans-and-providers-cms-guide-model/
+  audience: CMS GUIDE Model participants
+- url: https://ianacare.com/contact/
+  audience: Sales contact
+x-evidence:
+  fetched: '2026-08-22'
+  urls:
+  - url: https://ianacare.com/page-sitemap.xml
+    status: 200
+    note: Read through the Wayback Machine; the live host answers 202 behind a bot challenge.

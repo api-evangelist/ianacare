@@ -1,0 +1,66 @@
+generated: '2026-08-22'
+method: probed
+source: https://auth.ianacare.com/.well-known/openid-configuration
+note: >-
+  These are the scopes ianacare's own authorization server advertises in its discovery
+  document. They are the standard OIDC/Auth0 identity scope set — ianacare publishes no
+  API-specific permission scopes anywhere public, and no audience/API identifier is
+  discoverable, so no resource scopes could be recorded. Nothing here was authored;
+  every entry is copied from scopes_supported.
+docs: null
+authorization_server: https://auth.ianacare.com/
+scope_count: 14
+scopes:
+- name: openid
+  description: Request an ID token — the OpenID Connect entry scope.
+- name: profile
+  description: Basic profile claims (name, given_name, family_name, nickname, picture).
+- name: offline_access
+  description: Issue a refresh token so the client can renew access without re-prompting.
+- name: name
+  description: The end user's full name claim.
+- name: given_name
+  description: The end user's given name claim.
+- name: family_name
+  description: The end user's family name claim.
+- name: nickname
+  description: The end user's nickname claim.
+- name: email
+  description: The end user's email address claim.
+- name: email_verified
+  description: Whether the end user's email address has been verified.
+- name: picture
+  description: URL of the end user's profile picture.
+- name: created_at
+  description: Account creation timestamp claim.
+- name: identities
+  description: Linked identity-provider identities for the account.
+- name: phone
+  description: The end user's phone number claims.
+- name: address
+  description: The end user's address claims.
+claims_supported:
+- aud
+- auth_time
+- created_at
+- email
+- email_verified
+- exp
+- family_name
+- given_name
+- iat
+- identities
+- iss
+- name
+- nickname
+- phone_number
+- picture
+- sub
+gaps:
+- No resource/API scopes published (no audience identifier is discoverable anonymously).
+- No scopes or permissions reference page exists on any ianacare host.
+x-evidence:
+  fetched: '2026-08-22'
+  urls:
+  - url: https://auth.ianacare.com/.well-known/openid-configuration
+    status: 200

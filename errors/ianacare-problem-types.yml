@@ -1,0 +1,43 @@
+generated: '2026-08-22'
+method: probed
+source: live anonymous responses from https://iana.ianacare.com/
+note: >-
+  OBSERVED, NOT PUBLISHED. ianacare publishes no error reference. These two codes are
+  the only ones an unauthenticated caller can elicit from the API host, and they are
+  recorded here because the envelope shape is real and useful. Because two probed codes
+  are not an error catalog, NO `ErrorCatalog` pointer is wired into apis.yml — crediting
+  ianacare with an error catalog it did not publish would be false credit.
+format: vendor-json
+rfc9457: false
+envelope:
+  content_type: application/json; charset=utf-8
+  shape: '{"error": {"code": "<slug>", "message": "<human text>", "request_id": "<uuid>"}}'
+  correlation:
+    body_field: error.request_id
+    response_header: x-request-id
+problem_types:
+- code: auth_denied
+  status: 401
+  title: Missing bearer token
+  detail: Returned when no Authorization bearer JWT accompanies the request.
+  remediation: >-
+    Obtain an access token from https://auth.ianacare.com/oauth/token and send it as
+    Authorization: Bearer <jwt>. Client registration is not publicly available.
+  observed_at: https://iana.ianacare.com/api/v1
+- code: not_found
+  status: 404
+  title: Not found
+  detail: Returned for an unrouted path on the API host.
+  remediation: Check the path; no public route table is published.
+  observed_at: https://iana.ianacare.com/v1
+completeness:
+  published_reference: false
+  codes_observed: 2
+  codes_total: unknown
+x-evidence:
+  fetched: '2026-08-22'
+  urls:
+  - url: https://iana.ianacare.com/api/v1
+    status: 401
+  - url: https://iana.ianacare.com/v1
+    status: 404

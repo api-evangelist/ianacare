@@ -1,0 +1,52 @@
+generated: '2026-08-22'
+method: searched
+source: >-
+  ianacare.com sitemap (page-sitemap.xml, 49 pages), status/trust subdomain probes,
+  App Store and Google Play listings
+note: >-
+  An honest absence. ianacare publishes no versioning policy, no deprecation policy, no
+  SLA and no status page. status.ianacare.com, trust.ianacare.com and
+  security.ianacare.com do not resolve. No StatusPage or Deprecation pointer is emitted.
+versioning:
+  scheme: unpublished
+  current_version: null
+  note: >-
+    The only version signal ianacare exposes is the consumer app build. The private API
+    host uses a /api/v1 path prefix (observed via its 401 challenge), but no versioning
+    policy accompanies it.
+  observed:
+  - url: https://iana.ianacare.com/api/v1
+    status: 401
+deprecation_policy:
+  published: false
+  sunset_header: false
+  rfc8594: false
+  evidence: No deprecation, sunset or end-of-life page exists in the site sitemap.
+sla:
+  published: false
+status_page:
+  published: false
+  probes:
+  - url: https://status.ianacare.com/
+    status: 0
+    note: DNS does not resolve.
+  - url: https://trust.ianacare.com/
+    status: 0
+    note: DNS does not resolve.
+releases:
+  channel: app-stores
+  note: >-
+    Release cadence is only observable through the mobile app stores; ianacare publishes
+    no changelog or release notes on the web.
+  latest:
+  - platform: ios
+    version: 5.0.1
+    published: '2026-07-16'
+    source: https://itunes.apple.com/lookup?id=1441737626
+x-evidence:
+  fetched: '2026-08-22'
+  urls:
+  - url: https://itunes.apple.com/lookup?id=1441737626
+    status: 200
+  - url: https://iana.ianacare.com/api/v1
+    status: 401

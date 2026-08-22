@@ -1,0 +1,63 @@
+generated: '2026-08-22'
+method: searched
+source: >-
+  registry.npmjs.org (name + full-text search), pypi.org, rubygems.org, crates.io,
+  github.com/ianacare, itunes.apple.com lookup, play.google.com
+note: >-
+  ianacare ships NO developer client libraries. npm full-text search for "ianacare"
+  returns 0 packages; the name is absent from npm, PyPI, RubyGems and crates.io; the
+  github.com/ianacare organization exists (created 2022-05-25) but has 0 public repos.
+  The two entries below are the END-USER mobile applications, not SDKs — they are the
+  only versioned first-party distributions ianacare publishes. NO `SDKs` pointer is
+  emitted, because no software-development kit exists.
+sdk_count: 0
+packages:
+- language: swift
+  registry: app-store
+  name: ianacare - Caregiving Support
+  bundle_id: com.ianacare.iana
+  url: https://apps.apple.com/us/app/ianacare-caregiving-support/id1441737626
+  official: true
+  kind: end-user-application
+  version: 5.0.1
+  published: '2026-07-16'
+  version_source: https://itunes.apple.com/lookup?id=1441737626
+  publisher: ianacare, Inc.
+  minimum_os: '16.0'
+- language: kotlin
+  registry: play-store
+  name: ianacare - Caregiving Support
+  bundle_id: com.ianacare.ianacare
+  url: https://play.google.com/store/apps/details?id=com.ianacare.ianacare
+  official: true
+  kind: end-user-application
+  version: 5.0.1
+  published: null
+  version_source: https://play.google.com/store/apps/details?id=com.ianacare.ianacare
+  note: >-
+    Version read from the Play listing markup. Google does not publish a machine-readable
+    release date for this listing, so `published` is null — checked, nothing to record.
+registries_checked:
+- registry: npm
+  query: ianacare
+  result: 0 packages (full-text search total = 0)
+- registry: pypi
+  result: 404
+- registry: rubygems
+  result: 404
+- registry: crates.io
+  result: 404
+- registry: github
+  org: https://github.com/ianacare
+  result: organization exists, 0 public repositories
+x-evidence:
+  fetched: '2026-08-22'
+  urls:
+  - url: https://registry.npmjs.org/-/v1/search?text=ianacare
+    status: 200
+  - url: https://api.github.com/orgs/ianacare
+    status: 200
+  - url: https://itunes.apple.com/lookup?id=1441737626
+    status: 200
+  - url: https://play.google.com/store/apps/details?id=com.ianacare.ianacare
+    status: 200

@@ -1,0 +1,51 @@
+generated: '2026-08-22'
+method: probed
+source: live DNS/TLS/HTTP probes of every ianacare host found via certificate transparency
+note: >-
+  Host list widened beyond apis.yml by enumerating ianacare.com subdomains through
+  api.certspotter.com on 2026-08-22. HSTS is present only on the Auth0-backed identity
+  host; the marketing site, the CloudFront API edge, the bearer-token API host and the
+  web app all answer without a Strict-Transport-Security header.
+hosts:
+- host: ianacare.com
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Sep 25 10:08:26 2026 GMT
+  hsts: false
+- host: auth.ianacare.com
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Sep 23 00:10:43 2026 GMT
+  hsts: true
+  hsts_header: max-age=31536000; includeSubDomains
+  note: Auth0 custom domain (CNAME prod-env-ianacare-cd-wcczcfxw9amotowp.edge.tenants.us.auth0.com).
+- host: api.ianacare.com
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Jan 24 23:59:59 2027 GMT
+  hsts: false
+  note: CloudFront (d3k3w0z7cvvteo.cloudfront.net); HTTP 403 on every path.
+- host: iana.ianacare.com
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Nov 13 12:56:59 2026 GMT
+  hsts: false
+  note: Bearer-token API host; HTTP 401 auth_denied on /api and /api/v1.
+- host: app.ianacare.com
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Jan 24 23:59:59 2027 GMT
+  hsts: false
+  note: SPA web client.
+domains:
+- domain: ianacare.com
+  dnssec: false
+  caa: []
+  spf: true
+  spf_record: v=spf1 include:_spf.google.com include:mail.zendesk.com include:amazonses.com include:_spf.paubox.com ~all
+  dmarc: true
+  dmarc_policy: quarantine
+  dmarc_record: v=DMARC1;p=quarantine;rua=mailto:dmarc@ianacare.com;pct=100;adkim=r;aspf=r
+  note: >-
+    SPF includes Paubox, a HIPAA-compliant email relay — consistent with the HIPAA
+    posture stated in the privacy policy. No CAA records and no DNSSEC.

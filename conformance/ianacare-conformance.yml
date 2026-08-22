@@ -1,0 +1,154 @@
+generated: '2026-08-22'
+method: probed
+source: >-
+  https://auth.ianacare.com/.well-known/openid-configuration ;
+  https://auth.ianacare.com/.well-known/oauth-authorization-server ;
+  https://auth.ianacare.com/.well-known/jwks.json ;
+  https://web.archive.org/web/20251111020422/https://ianacare.com/privacy-policy/
+note: >-
+  Every `conforms: true` below is read out of a document ianacare actually serves. The
+  identity surface is the only machine-readable contract ianacare publishes; there is no
+  OpenAPI, AsyncAPI, GraphQL SDL or MCP server to assert anything else against, so the
+  contract-side standards are recorded as unevidenced rather than as failures.
+standards:
+- id: oidc
+  label: OpenID Connect Discovery 1.0
+  conforms: true
+  evidence: >-
+    https://auth.ianacare.com/.well-known/openid-configuration returns HTTP 200 with
+    issuer, authorization_endpoint, token_endpoint, userinfo_endpoint, jwks_uri,
+    response_types_supported, subject_types_supported and id_token_signing_alg_values_supported.
+- id: oauth2
+  label: OAuth 2.0 (RFC 6749)
+  conforms: true
+  evidence: >-
+    authorization_code, client_credentials, refresh_token, implicit and password grants
+    advertised in grant_types_supported.
+- id: rfc8414
+  label: OAuth 2.0 Authorization Server Metadata (RFC 8414)
+  conforms: true
+  evidence: >-
+    https://auth.ianacare.com/.well-known/oauth-authorization-server returns HTTP 200
+    with a body byte-identical to the OIDC discovery document.
+- id: pkce
+  label: PKCE (RFC 7636)
+  conforms: true
+  evidence: 'code_challenge_methods_supported: [S256, plain]'
+- id: rfc7009
+  label: OAuth 2.0 Token Revocation (RFC 7009)
+  conforms: true
+  evidence: 'revocation_endpoint: https://auth.ianacare.com/oauth/revoke'
+- id: rfc7591
+  label: OAuth 2.0 Dynamic Client Registration (RFC 7591)
+  conforms: true
+  evidence: 'registration_endpoint: https://auth.ianacare.com/oidc/register (advertised; not exercised)'
+- id: rfc8628
+  label: OAuth 2.0 Device Authorization Grant (RFC 8628)
+  conforms: true
+  evidence: >-
+    device_authorization_endpoint present and urn:ietf:params:oauth:grant-type:device_code
+    in grant_types_supported.
+- id: rfc8693
+  label: OAuth 2.0 Token Exchange (RFC 8693)
+  conforms: true
+  evidence: urn:ietf:params:oauth:grant-type:token-exchange in grant_types_supported.
+- id: rfc7523
+  label: JWT Profile for OAuth 2.0 Client Authentication (RFC 7523)
+  conforms: true
+  evidence: >-
+    private_key_jwt in token_endpoint_auth_methods_supported and
+    urn:ietf:params:oauth:grant-type:jwt-bearer in grant_types_supported.
+- id: rfc9449
+  label: OAuth 2.0 Demonstrating Proof of Possession — DPoP (RFC 9449)
+  conforms: true
+  evidence: 'dpop_signing_alg_values_supported: [ES256]'
+- id: jwks
+  label: JSON Web Key Set (RFC 7517)
+  conforms: true
+  evidence: >-
+    https://auth.ianacare.com/.well-known/jwks.json returns HTTP 200 with two RSA RS256
+    signing keys.
+- id: ciba
+  label: OpenID Connect CIBA (backchannel authentication)
+  conforms: true
+  evidence: >-
+    backchannel_authentication_endpoint https://auth.ianacare.com/bc-authorize with
+    backchannel_token_delivery_modes_supported [poll].
+- id: rfc9116
+  label: security.txt (RFC 9116)
+  conforms: false
+  evidence: >-
+    /.well-known/security.txt returns 404 on auth.ianacare.com and 403 on
+    api.ianacare.com; ianacare.com cannot be resolved through its bot challenge.
+- id: rfc9457
+  label: Problem Details for HTTP APIs (RFC 9457)
+  conforms: false
+  evidence: >-
+    iana.ianacare.com returns a bespoke JSON envelope
+    {"error":{"code","message","request_id"}} with content-type application/json, not
+    application/problem+json.
+- id: rfc8594
+  label: Sunset HTTP Header (RFC 8594)
+  conforms: false
+  evidence: No deprecation or sunset policy is published on any ianacare host.
+- id: openapi
+  label: OpenAPI
+  conforms: false
+  evidence: >-
+    No OpenAPI/Swagger document was found on ianacare.com, api.ianacare.com,
+    iana.ianacare.com, app.ianacare.com, auth.ianacare.com, growth.ianacare.com,
+    ops.ianacare.com, copilot.ianacare.com or local-resources.ianacare.com.
+domain_standards:
+  sector: healthcare
+  regime: HIPAA / HITECH
+  note: >-
+    Checked the healthcare shortlist against every reachable ianacare host. No FHIR
+    capability statement, SMART-on-FHIR configuration, US Core, CARIN, Da Vinci,
+    CDS Hooks, C-CDA, HL7v2 or DICOM signature is present in any contract ianacare
+    serves, because ianacare serves no clinical-data contract at all. REWARD-ONLY
+    dimension: recorded as unevidenced, not as a failure.
+  candidates:
+  - id: fhir
+    conforms: false
+    evidence: >-
+      /fhir/metadata, /r4/metadata and /metadata return HTTP 404 on iana.ianacare.com
+      and HTTP 403 on api.ianacare.com.
+  - id: smart-on-fhir
+    conforms: false
+    evidence: /.well-known/smart-configuration returns HTTP 404 on iana.ianacare.com.
+regulatory_posture:
+  note: >-
+    Legal disclosures only — ianacare publishes no trust center, no certification page
+    and no audit report. These are statements of applicable law in the privacy policy,
+    NOT a published compliance program, and no `Compliance` pointer is emitted on the
+    strength of them.
+  claims:
+  - regime: HIPAA
+    stated: true
+    quote_source: https://ianacare.com/privacy-policy/
+    evidence: >-
+      Privacy policy states information may be disclosed "as required or permitted by
+      law, including, where applicable, the Health Insurance Portability and
+      Accountability Act of 1996".
+  - regime: GDPR
+    stated: true
+    evidence: Privacy policy names ianacare as the controller in respect of processing.
+  - regime: CCPA/CPRA
+    stated: true
+    evidence: Privacy policy carries a CCPA sale-and-sharing section.
+  certifications_published: []
+x-evidence:
+  fetched: '2026-08-22'
+  urls:
+  - url: https://auth.ianacare.com/.well-known/openid-configuration
+    status: 200
+  - url: https://auth.ianacare.com/.well-known/oauth-authorization-server
+    status: 200
+  - url: https://auth.ianacare.com/.well-known/jwks.json
+    status: 200
+  - url: https://iana.ianacare.com/.well-known/smart-configuration
+    status: 404
+  - url: https://iana.ianacare.com/fhir/metadata
+    status: 404
+  - url: https://api.ianacare.com/fhir/metadata
+    status: 403

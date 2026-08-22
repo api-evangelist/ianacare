@@ -1,0 +1,26 @@
+generated: '2026-08-22'
+method: probed
+source: live responses from https://iana.ianacare.com/api/v1 and https://api.ianacare.com/
+note: >-
+  ianacare documents no rate limits, because it documents no API. Anonymous responses
+  from both API hosts were inspected for RateLimit-*, X-RateLimit-* and Retry-After
+  headers; none are returned. An honest zero.
+limit_count: 0
+limits: []
+headers:
+  ratelimit_draft: false
+  x_ratelimit: false
+  retry_after: false
+  observed_on:
+  - url: https://iana.ianacare.com/api/v1
+    status: 401
+  - url: https://api.ianacare.com/
+    status: 403
+exhaustion_status: unknown
+x-evidence:
+  fetched: '2026-08-22'
+  urls:
+  - url: https://iana.ianacare.com/api/v1
+    status: 401
+  - url: https://api.ianacare.com/
+    status: 403

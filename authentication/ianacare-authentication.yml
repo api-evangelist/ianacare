@@ -1,0 +1,119 @@
+generated: '2026-08-22'
+method: probed
+source: https://auth.ianacare.com/.well-known/openid-configuration
+note: >-
+  Derived entirely from documents ianacare serves, not from any published developer
+  documentation — ianacare publishes no developer portal, no API reference and no
+  OpenAPI. The OIDC discovery document at auth.ianacare.com is real and first-party
+  (auth.ianacare.com is ianacare's own hostname, CNAMEd to its Auth0 tenant
+  prod-env-ianacare-cd-wcczcfxw9amotowp.edge.tenants.us.auth0.com), and the bearer
+  challenge below was observed live against iana.ianacare.com.
+identity_provider:
+  vendor: Auth0
+  custom_domain: auth.ianacare.com
+  issuer: https://auth.ianacare.com/
+  evidence: dig CNAME auth.ianacare.com -> prod-env-ianacare-cd-wcczcfxw9amotowp.edge.tenants.us.auth0.com
+schemes:
+- id: oidc
+  type: openIdConnect
+  openIdConnectUrl: https://auth.ianacare.com/.well-known/openid-configuration
+  description: >-
+    OpenID Connect discovery served from ianacare's own auth host. Backs the ianacare
+    mobile apps (com.ianacare.iana / com.ianacare.ianacare) and the app.ianacare.com
+    web client.
+  endpoints:
+    authorization: https://auth.ianacare.com/authorize
+    token: https://auth.ianacare.com/oauth/token
+    userinfo: https://auth.ianacare.com/userinfo
+    jwks: https://auth.ianacare.com/.well-known/jwks.json
+    revocation: https://auth.ianacare.com/oauth/revoke
+    registration: https://auth.ianacare.com/oidc/register
+    device_authorization: https://auth.ianacare.com/oauth/device/code
+    backchannel_authentication: https://auth.ianacare.com/bc-authorize
+    mfa_challenge: https://auth.ianacare.com/mfa/challenge
+    global_token_revocation: https://auth.ianacare.com/oauth/global-token-revocation/connection/{connectionName}
+- id: oauth2
+  type: oauth2
+  description: OAuth 2.0 authorization server (RFC 8414 metadata identical to the OIDC document).
+  flows:
+    authorization_code:
+      authorizationUrl: https://auth.ianacare.com/authorize
+      tokenUrl: https://auth.ianacare.com/oauth/token
+      pkce: true
+      code_challenge_methods: [S256, plain]
+    client_credentials:
+      tokenUrl: https://auth.ianacare.com/oauth/token
+    device_code:
+      deviceAuthorizationUrl: https://auth.ianacare.com/oauth/device/code
+    refresh_token:
+      tokenUrl: https://auth.ianacare.com/oauth/token
+  grant_types:
+  - client_credentials
+  - authorization_code
+  - refresh_token
+  - password
+  - implicit
+  - urn:ietf:params:oauth:grant-type:device_code
+  - urn:ietf:params:oauth:grant-type:token-exchange
+  - urn:ietf:params:oauth:grant-type:jwt-bearer
+  - http://auth0.com/oauth/grant-type/password-realm
+  - http://auth0.com/oauth/grant-type/passwordless/otp
+  - http://auth0.com/oauth/grant-type/mfa-oob
+  - http://auth0.com/oauth/grant-type/mfa-otp
+  - http://auth0.com/oauth/grant-type/mfa-recovery-code
+  token_endpoint_auth_methods:
+  - client_secret_basic
+  - client_secret_post
+  - private_key_jwt
+  - none
+  token_endpoint_auth_signing_algs: [RS256, RS384, PS256]
+  id_token_signing_algs: [HS256, RS256, PS256]
+  dpop_signing_algs: [ES256]
+  response_types:
+  - code
+  - token
+  - id_token
+  - code token
+  - code id_token
+  - token id_token
+  - code token id_token
+  response_modes: [query, fragment, form_post]
+  subject_types: [public]
+- id: bearer
+  type: http
+  scheme: bearer
+  bearerFormat: JWT
+  description: >-
+    Resource-server side. iana.ianacare.com answers an unauthenticated request with
+    HTTP 401 and {"error":{"code":"auth_denied","message":"Missing bearer token",
+    "request_id":"..."}} — the tokens are the JWTs minted by auth.ianacare.com above.
+  observed:
+    url: https://iana.ianacare.com/api/v1
+    status: 401
+    body: '{"error":{"code":"auth_denied","message":"Missing bearer token","request_id":"<uuid>"}}'
+mfa:
+  supported: true
+  evidence: mfa_challenge_endpoint present in the discovery document
+  factors_documented: false
+dynamic_client_registration:
+  supported: true
+  endpoint: https://auth.ianacare.com/oidc/register
+  note: >-
+    RFC 7591 registration endpoint is advertised in discovery. Not tested — no anonymous
+    registration attempt was made against a production tenant.
+gaps:
+- No public developer documentation describes how a third party would obtain a client_id.
+- No audience/API identifier is published, so the scopes an access token can carry for
+  the iana.ianacare.com resource server are not discoverable anonymously.
+- api.ianacare.com returns HTTP 403 on every path, so its auth model cannot be observed.
+x-evidence:
+  fetched: '2026-08-22'
+  urls:
+  - url: https://auth.ianacare.com/.well-known/openid-configuration
+    status: 200
+  - url: https://auth.ianacare.com/.well-known/jwks.json
+    status: 200
+  - url: https://iana.ianacare.com/api/v1
+    status: 401
+  - url: https://api.ianacare.com/
+    status: 403

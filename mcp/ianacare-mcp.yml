@@ -1,0 +1,30 @@
+generated: '2026-08-22'
+method: searched
+source: >-
+  Probed every ianacare host for an MCP endpoint; searched npm and the web for a
+  first-party ianacare MCP server.
+note: >-
+  No MCP server exists, hosted or local, and there is no OpenAPI to derive a candidate
+  tool list from — so no candidate tools are listed. NO `MCPServer` pointer is wired
+  into apis.yml. Never invent an endpoint.
+status: none
+deployment:
+  mode: none
+  endpoint: null
+  install: null
+  package: null
+  auth: unknown
+  verified: probed
+tools: []
+probes:
+- url: https://api.ianacare.com/mcp
+  method: POST tools/list
+  status: 403
+- url: https://ianacare.com/llms.txt
+  status: 202
+  note: SiteGround bot challenge; unresolvable.
+- registry: npm
+  query: ianacare
+  result: 0 packages
+x-evidence:
+  fetched: '2026-08-22'
