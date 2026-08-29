@@ -17,6 +17,17 @@ description: >-
   reference, OpenAPI, SDK, CLI, webhook catalog, MCP server or agent card on any
   ianacare host.
 url: https://raw.githubusercontent.com/api-evangelist/ianacare/refs/heads/main/apis.yml
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: false
+  label: Hosted service · you call their endpoint
+  confidence: medium
+  source:
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 image: https://ianacare.com/wp-content/uploads/2024/11/Ianacare_part-3__102-1.webp
 x-type: company
 x-source: harvest:secondary-market
